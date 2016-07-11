@@ -9,29 +9,51 @@ import android.widget.TextView;
 /**
  * Created by sidney on 7/11/16.
  */
-public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.CustomViewHolder> {
+public class CustomAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-    private String[] mItems;
+    private static final int TYPE_ITEM = 0;
+    private static final int TYPE_HEADER = 1;
 
-    public CustomAdapter(String[] items) {
-        mItems = items;
+    private ListSection[] mList;
+
+    public CustomAdapter(ListSection[] list) {
+        mList = list;
     }
 
     @Override
-    public CustomViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.custom_item_section,
-                parent, false);
-        return new CustomViewHolder(view);
+    public int getItemViewType(int position) {
+        if (mList[position].isHeader()) {
+            return TYPE_HEADER;
+        } else {
+            return TYPE_ITEM;
+        }
     }
 
     @Override
-    public void onBindViewHolder(CustomViewHolder holder, int position) {
-        holder.setTextViewText(mItems[position]);
+    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        if (viewType == TYPE_HEADER) {
+            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.header_section,
+                    parent, false);
+            return new HeaderViewHolder(view);
+        } else {
+            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.custom_item_section,
+                    parent, false);
+            return new CustomViewHolder(view);
+        }
+    }
+
+    @Override
+    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+        if (holder instanceof HeaderViewHolder) {
+            ((HeaderViewHolder) holder).setTextViewText(((ListHeader) mList[position]).getHeader());
+        } else {
+            ((CustomViewHolder) holder).setTextViewText(((ListItem) mList[position]).getItem());
+        }
     }
 
     @Override
     public int getItemCount() {
-        return mItems.length;
+        return mList.length;
     }
 
     protected class CustomViewHolder extends RecyclerView.ViewHolder {
@@ -45,6 +67,20 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.CustomView
 
         public void setTextViewText(String item) {
             mTextView.setText(item);
+        }
+    }
+
+    protected class HeaderViewHolder extends RecyclerView.ViewHolder {
+
+        private TextView mTextView;
+
+        public HeaderViewHolder(View itemView) {
+            super(itemView);
+            mTextView = (TextView) itemView.findViewById(R.id.header_textView);
+        }
+
+        public void setTextViewText(String header) {
+            mTextView.setText(header);
         }
     }
 }

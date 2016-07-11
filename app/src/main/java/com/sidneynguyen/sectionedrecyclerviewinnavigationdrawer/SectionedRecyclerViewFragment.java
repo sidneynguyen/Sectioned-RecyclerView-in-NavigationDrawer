@@ -12,7 +12,6 @@ import android.view.ViewGroup;
 
 public class SectionedRecyclerViewFragment extends Fragment {
 
-
     public SectionedRecyclerViewFragment() {
         // Required empty public constructor
     }
@@ -29,12 +28,25 @@ public class SectionedRecyclerViewFragment extends Fragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        String[] items = {"Alpha", "Beta", "Charlie", "Delta", "Echo", "Foxtrot"};
+        ListSection[] list = {
+                new ListHeader("Header 1"),
+                new ListItem("Item 1"),
+                new ListItem("Item 2"),
+                new ListItem("Item 3"),
+                new ListHeader("Header 2"),
+                new ListItem("Item 4"),
+                new ListItem("Item 5"),
+                new ListItem("Item 6"),
+                new ListItem("Item 7"),
+                new ListHeader("Header 3"),
+                new ListItem("Item 8"),
+                new ListItem("Item 9")
+        };
 
         RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.recyclerView);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        CustomAdapter adapter = new CustomAdapter(items);
+        CustomAdapter adapter = new CustomAdapter(list);
         recyclerView.setAdapter(adapter);
     }
 }
