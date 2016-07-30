@@ -28,25 +28,27 @@ public class SectionedRecyclerViewFragment extends Fragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        ListSection[] list = {
-                new ListHeader("Header 1"),
-                new ListItem("Item 1"),
-                new ListItem("Item 2"),
-                new ListItem("Item 3"),
-                new ListHeader("Header 2"),
-                new ListItem("Item 4"),
-                new ListItem("Item 5"),
-                new ListItem("Item 6"),
-                new ListItem("Item 7"),
-                new ListHeader("Header 3"),
-                new ListItem("Item 8"),
-                new ListItem("Item 9")
+        SectionedRecyclerViewItem[] list = {
+                new SectionedRecyclerViewItem.Header("Header 1"),
+                new SectionedRecyclerViewItem.Item("Item 1"),
+                new SectionedRecyclerViewItem.Item("Item 2"),
+                new SectionedRecyclerViewItem.Item("Item 3"),
+
+                new SectionedRecyclerViewItem.Header("Header 2"),
+                new SectionedRecyclerViewItem.Item("Item 4"),
+                new SectionedRecyclerViewItem.Item("Item 5"),
+                new SectionedRecyclerViewItem.Item("Item 6"),
+                new SectionedRecyclerViewItem.Item("Item 7"),
+
+                new SectionedRecyclerViewItem.Header("Header 3"),
+                new SectionedRecyclerViewItem.Item("Item 8"),
+                new SectionedRecyclerViewItem.Item("Item 9")
         };
 
         RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.recyclerView);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        CustomAdapter adapter = new CustomAdapter(list);
+        SectionedRecyclerViewAdapter adapter = new SectionedRecyclerViewAdapter(list);
         recyclerView.setAdapter(adapter);
     }
 }
